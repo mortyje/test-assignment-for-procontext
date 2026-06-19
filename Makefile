@@ -15,7 +15,6 @@ init-env:
 	cp app/.env.example app/.env
 
 setup:
-	docker compose up -d --build
 	docker compose run --rm php-cli php artisan key:generate
 	docker compose run --rm php-cli php artisan migrate
 
