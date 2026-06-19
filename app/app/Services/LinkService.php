@@ -6,10 +6,10 @@ use App\Models\Link;
 use App\Repositories\Contracts\LinkRepositoryInterface;
 use Illuminate\Support\Str;
 
-class LinkService
+readonly class LinkService
 {
     public function __construct(
-        private readonly LinkRepositoryInterface $repository
+        private LinkRepositoryInterface $repository
     ) {}
 
     public function create(string $url): Link
