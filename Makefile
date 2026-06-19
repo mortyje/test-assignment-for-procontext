@@ -20,12 +20,7 @@ restart:
 # =========================
 
 bootstrap:
-	test ! -d app || rm -rf app
-
 	docker compose run --rm composer create-project laravel/laravel app "11.*"
-
-	docker compose run --rm composer install --no-interaction --prefer-dist
-
 	docker compose run --rm php-cli php artisan install:api --no-interaction
 
 # =========================

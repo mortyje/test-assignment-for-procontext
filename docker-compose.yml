@@ -37,10 +37,10 @@ services:
 
   composer:
     image: composer:2.6
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${UID}:${GID}"
     volumes:
-      - ./app:/var/www/html
-    working_dir: /var/www/html
+      - ./:/workspace
+    working_dir: /workspace
 
   postgres:
     image: postgres:17-alpine
