@@ -22,7 +22,7 @@ class LinkController extends Controller
         return response()->json([
             'code' => $link->code,
             'short_url' => url($link->code),
-        ]);
+        ], 201);
     }
 
     public function stats(string $code): LinkStatsResource

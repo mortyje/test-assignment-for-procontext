@@ -14,6 +14,6 @@ class RedirectController extends Controller
     {
         $link = $this->service->resolve($code);
 
-        return redirect($link->url, 302);
+        return redirect()->away($link->url, 302);
     }
 }

@@ -52,7 +52,7 @@ readonly class LinkService
     private function generateUniqueCode(): string
     {
         do {
-            $code = Str::upper(Str::random(6));
+            $code = strtoupper(Str::random(6));
         } while ($this->repository->findByCode($code));
 
         return $code;
