@@ -11,6 +11,9 @@ down:
 logs:
 	docker compose logs -f
 
+restart:
+	docker compose down && docker compose up -d --build
+
 
 # =========================
 # BOOTSTRAP
@@ -18,9 +21,12 @@ logs:
 
 bootstrap:
 	test ! -d app || rm -rf app
-	docker compose run --rm composer create-project laravel/laravel:^11.0 app
-	docker compose run --rm php-cli php artisan install:api --no-interaction
 
+	docker compose run --rm composer create-project laravel/laravel . "11.*"
+
+	docker compose run --rm composer install --no-interaction --prefer-dist
+
+	docker compose run --rm php-cli php artisan install:api --no-interaction
 
 # =========================
 # SETUP
@@ -28,6 +34,7 @@ bootstrap:
 
 init-env:
 	cp .env.example .env
+	cp app/.env.example app/.env
 
 setup:
 	docker compose up -d --build
@@ -36,20 +43,31 @@ setup:
 
 
 # =========================
-# LARAVEL SHORTCUTS
+# DATABASE
 # =========================
 
 migrate:
-	docker compose exec php-cli php artisan migrate
+	docker compose run --rm php-cli php artisan migrate
 
 migrate-fresh:
-	docker compose exec php-cli php artisan migrate:fresh
+	docker compose run --rm php-cli php artisan migrate:fresh --seed
+
+seed:
+	docker compose run --rm php-cli php artisan db:seed
+
+
+# =========================
+# ARTISAN
+# =========================
 
 artisan:
-	docker compose exec php-cli php artisan
+	docker compose run --rm php-cli php artisan
 
 bash:
-	docker compose exec php-cli bash
+	docker compose run --rm php-cli bash
+
+tinker:
+	docker compose run --rm php-cli php artisan tinker
 
 
 # =========================
@@ -57,7 +75,21 @@ bash:
 # =========================
 
 composer-install:
-	docker compose run --rm composer install
+	docker compose run --rm composer install --no-interaction --prefer-dist
 
 composer-update:
-	docker compose run --rm composer update
+	docker compose run --rm composer update --no-interaction
+
+composer-dump:
+	docker compose run --rm composer dump-autoload
+
+
+# =========================
+# CACHE
+# =========================
+
+cache-clear:
+	docker compose run --rm php-cli php artisan optimize:clear
+
+cache-optimize:
+	docker compose run --rm php-cli php artisan optimize
