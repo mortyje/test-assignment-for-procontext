@@ -36,7 +36,6 @@ setup:
 	docker compose run --rm php-cli php artisan key:generate
 	docker compose run --rm php-cli php artisan migrate
 
-
 # =========================
 # DATABASE
 # =========================
@@ -52,18 +51,11 @@ seed:
 
 
 # =========================
-# ARTISAN
+# PHP-CLI BASH
 # =========================
-
-artisan:
-	docker compose run --rm php-cli php artisan
 
 bash:
 	docker compose run --rm php-cli bash
-
-tinker:
-	docker compose run --rm php-cli php artisan tinker
-
 
 # =========================
 # COMPOSER
