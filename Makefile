@@ -1,7 +1,3 @@
-# =========================
-# INFRA
-# =========================
-
 up:
 	docker compose up -d --build
 
@@ -14,19 +10,6 @@ logs:
 restart:
 	docker compose down && docker compose up -d --build
 
-
-# =========================
-# BOOTSTRAP
-# =========================
-
-bootstrap:
-	docker compose run --rm composer create-project laravel/laravel app "11.*"
-	docker compose run --rm php-cli php artisan install:api --no-interaction
-
-# =========================
-# SETUP
-# =========================
-
 init-env:
 	cp .env.example .env
 	cp app/.env.example app/.env
@@ -35,10 +18,6 @@ setup:
 	docker compose up -d --build
 	docker compose run --rm php-cli php artisan key:generate
 	docker compose run --rm php-cli php artisan migrate
-
-# =========================
-# DATABASE
-# =========================
 
 migrate:
 	docker compose run --rm php-cli php artisan migrate
@@ -49,17 +28,8 @@ migrate-fresh:
 seed:
 	docker compose run --rm php-cli php artisan db:seed
 
-
-# =========================
-# PHP-CLI BASH
-# =========================
-
 bash:
 	docker compose run --rm php-cli bash
-
-# =========================
-# COMPOSER
-# =========================
 
 composer-install:
 	docker compose run --rm composer install --no-interaction --prefer-dist
@@ -69,11 +39,6 @@ composer-update:
 
 composer-dump:
 	docker compose run --rm composer dump-autoload
-
-
-# =========================
-# CACHE
-# =========================
 
 cache-clear:
 	docker compose run --rm php-cli php artisan optimize:clear

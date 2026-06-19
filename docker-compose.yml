@@ -39,8 +39,8 @@ services:
     image: composer:2.6
     user: "${UID}:${GID}"
     volumes:
-      - ./:/workspace
-    working_dir: /workspace
+      - ./app:/var/www/html
+    working_dir: /var/www/html
 
   postgres:
     image: postgres:17-alpine
